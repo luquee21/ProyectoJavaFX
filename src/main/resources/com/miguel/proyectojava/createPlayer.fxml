@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.miguel.proyectojava.controller.createPlayerController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="29.0" prefHeight="59.0" prefWidth="600.0" text="Crear Jugador" AnchorPane.topAnchor="29.0">
          <font>
@@ -19,38 +19,32 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="250.0" layoutY="113.0" AnchorPane.topAnchor="113.0" />
+      <TextField fx:id="Fname" layoutX="250.0" layoutY="113.0" AnchorPane.topAnchor="113.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="151.0" prefHeight="17.0" prefWidth="118.0" text="Apellidos" AnchorPane.topAnchor="151.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="250.0" layoutY="152.0" AnchorPane.topAnchor="152.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="197.0" prefHeight="17.0" prefWidth="118.0" text="Edad" AnchorPane.topAnchor="197.0">
+      <TextField fx:id="Flastname" layoutX="250.0" layoutY="152.0" AnchorPane.topAnchor="152.0" />
+      <TextField fx:id="Femail" layoutX="251.0" layoutY="188.0" AnchorPane.topAnchor="188.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="187.0" prefHeight="17.0" prefWidth="118.0" text="Email" AnchorPane.topAnchor="187.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="250.0" layoutY="198.0" AnchorPane.topAnchor="198.0" />
-      <TextField layoutX="250.0" layoutY="240.0" AnchorPane.topAnchor="240.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="239.0" prefHeight="17.0" prefWidth="118.0" text="Email" AnchorPane.topAnchor="239.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="227.0" prefHeight="17.0" prefWidth="118.0" text="Usuario" AnchorPane.topAnchor="227.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="285.0" prefHeight="17.0" prefWidth="118.0" text="Usuario" AnchorPane.topAnchor="285.0">
+      <TextField fx:id="Fuser" layoutX="250.0" layoutY="228.0" AnchorPane.topAnchor="228.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="265.0" prefHeight="17.0" prefWidth="118.0" text="Contraseña" AnchorPane.topAnchor="265.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="250.0" layoutY="286.0" AnchorPane.topAnchor="286.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="132.0" layoutY="323.0" prefHeight="17.0" prefWidth="118.0" text="Contraseña" AnchorPane.topAnchor="323.0">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Button layoutX="250.0" layoutY="362.0" mnemonicParsing="false" text="Enviar" AnchorPane.topAnchor="362.0" />
-      <Button layoutX="350.0" layoutY="362.0" mnemonicParsing="false" text="Volver" AnchorPane.topAnchor="362.0" />
-      <PasswordField layoutX="250.0" layoutY="324.0" AnchorPane.topAnchor="324.0" />
+      <Button layoutX="251.0" layoutY="314.0" mnemonicParsing="false" onAction="#signup" text="Enviar" AnchorPane.topAnchor="314.0" />
+      <Button layoutX="350.0" layoutY="314.0" mnemonicParsing="false" onAction="#back" text="Volver" AnchorPane.topAnchor="314.0" />
+      <PasswordField fx:id="Fpass" layoutX="251.0" layoutY="266.0" AnchorPane.topAnchor="266.0" />
    </children>
 </AnchorPane>

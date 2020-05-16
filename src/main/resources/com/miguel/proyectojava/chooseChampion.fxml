@@ -7,25 +7,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.miguel.proyectojava.controller.chooseChampionController">
    <children>
       <Label alignment="CENTER" layoutY="-1.0" prefHeight="39.0" prefWidth="600.0" text="Elige un campeón" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView layoutY="38.0" prefHeight="323.0" prefWidth="600.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
+      <TableView fx:id="table" layoutY="38.0" prefHeight="323.0" prefWidth="600.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
         <columns>
-          <TableColumn prefWidth="122.0" resizable="false" text="Campeon" />
-            <TableColumn prefWidth="122.0" text="Daño" />
-            <TableColumn prefWidth="190.0" text="Vida" />
-            <TableColumn prefWidth="84.0" text="Armadura" />
-            <TableColumn prefWidth="139.0" text="Prob_Fallo_Ataque" />
+          <TableColumn fx:id="tchampion" prefWidth="122.0" resizable="false" text="Campeon" />
+            <TableColumn fx:id="tdamage" prefWidth="122.0" text="Daño" />
+            <TableColumn fx:id="thealth" prefWidth="190.0" text="Vida" />
+            <TableColumn fx:id="tarmor" prefWidth="84.0" text="Armadura" />
+            <TableColumn fx:id="tmiss" prefWidth="139.0" text="Prob_Fallo_Ataque" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="14.0" layoutY="422.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Elegir " AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" />
+      <Button layoutX="14.0" layoutY="422.0" mnemonicParsing="false" onAction="#selectChampion" prefHeight="25.0" prefWidth="49.0" text="Elegir " AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" />
    </children>
 </AnchorPane>

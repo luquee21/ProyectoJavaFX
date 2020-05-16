@@ -15,13 +15,9 @@ public interface IPerson {
 
     void setName(String name);
 
-    String getLastName();
+    String getLastname();
 
-    void setLastName(String lastName);
-
-    int getAge();
-
-    void setAge(int age);
+    void setLastname(String lastName);
 
     String getEmail();
 

@@ -5,41 +5,34 @@
  */
 package com.miguel.proyectojava.model;
 
-import com.miguel.proyectojava.model.Player;
+
 
 /**
  *
  * @author migue
  */
 public class Score {
-    private int id;
-    private Player pUsername;
+    private String username_player;
     private int victories;
     private int defeats;
     private int total_games;
 
-    public Score(Player pUsername, int victories, int defeats, int total_games) {
-        this.pUsername = pUsername;
+    public Score(String username_player, int victories, int defeats, int total_games) {
+        this.username_player = username_player;
         this.victories = victories;
         this.defeats = defeats;
         this.total_games = total_games;
     }
 
-    public int getId() {
-        return id;
+    public String getUsername_player() {
+        return username_player;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUsername_player(String username_player) {
+        this.username_player = username_player;
     }
 
-    public Player getpUsername() {
-        return pUsername;
-    }
-
-    public void setpUsername(Player pUsername) {
-        this.pUsername = pUsername;
-    }
+    
 
     public int getVictories() {
         return victories;

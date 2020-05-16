@@ -10,26 +10,18 @@ package com.miguel.proyectojava.model;
  * @author migue
  */
 public class Skill {
-     enum Skills {
-        LessProbMiss, MoreDamage, MoreHealth, MoreArmor;
-    }
-    private String name;
+    private String skill;
     private String description;
-    private Skills eSkill;
 
-    public Skill(String name, String description, Skills eSkill) {
-        this.name = name;
+    public Skill(String skill, String description) {
+        this.skill = skill;
         this.description = description;
-        this.eSkill = eSkill;
     }
 
-    public String getName() {
-        return name;
+    public Skill(String skill) {
+        this.skill = skill;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    
 
     public String getDescription() {
         return description;
@@ -39,13 +31,16 @@ public class Skill {
         this.description = description;
     }
 
-    public Skills geteSkill() {
-        return eSkill;
+    public String getSkill() {
+        return skill;
     }
 
-    public void seteSkill(Skills eSkill) {
-        this.eSkill = eSkill;
+    public void setSkill(String skill) {
+        this.skill = skill;
+        
     }
+
+    
 
     
 }

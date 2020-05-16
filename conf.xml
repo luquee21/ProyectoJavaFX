@@ -1,0 +1,11 @@
+<CONNECTION>
+
+<host>192.168.1.21</host>
+
+<db>juego</db>
+
+<user>luque</user>
+
+<password>root</password>
+
+</CONNECTION>

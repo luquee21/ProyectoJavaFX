@@ -5,17 +5,34 @@
  */
 package com.miguel.proyectojava.model;
 
-
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
  * @author migue
  */
 public class Player extends Person {
-    private String username;
+    protected String username;
     private Score score;
-    private String password;
+    protected String password;
 
+    public Player(String name, String lastname, String email, String username, String password) {
+        super(name, lastname, email);
+        this.username = username;
+        this.password = password;
+    }
+
+    public Player(String username) {
+        super("", "", "");
+        this.username = username;
+    }
+
+    public Player() {
+    }
+    
+    
+ 
+ 
     public String getUsername() {
         return username;
     }
@@ -37,47 +54,12 @@ public class Player extends Person {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = DigestUtils.sha512Hex(password);
     }
     
-    
-    @Override
-    public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getLastName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getAge() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setAge(int age) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+ 
+     @Override
+    public String toString() {
+        return super.toString() + "Player{" + "username=" + username + ", score=" + score +'}';
     }
 }
