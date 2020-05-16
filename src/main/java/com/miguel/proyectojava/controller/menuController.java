@@ -267,8 +267,17 @@ public class menuController implements Initializable {
         System.exit(0);
     }
 
+    public boolean deletePlayer(Player p) {
+        boolean result = false;
+        PlayerDAO dao = new PlayerDAO(p);
+        if (dao.delete()) {
+            result = true;
+        }
+        return result;
+    }
+
     @FXML
-    public void deletePlayer() {
+    public void deletePlayerFX() {
         Player selected = ptableprofile.getSelectionModel().getSelectedItem();
         if (selected != null) {
             if (!showConfirm(selected.getUsername())) {
@@ -277,13 +286,13 @@ public class menuController implements Initializable {
             //BORRAR DE LA INTERFAZ
             dataprofile.remove(selected);
             //BORRAR DE LA BBDD
-            PlayerDAO dao = new PlayerDAO(selected);
-            dao.delete();
-            try {
-                //LOGOUT
-                signoff();
-            } catch (IOException ex) {
-                Logger.getLogger(menuController.class.getName()).log(Level.SEVERE, null, ex);
+            if (deletePlayer(selected)) {
+                try {
+                    //LOGOUT
+                    signoff();
+                } catch (IOException ex) {
+                    Logger.getLogger(menuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         } else {
@@ -315,16 +324,32 @@ public class menuController implements Initializable {
 
     }
 
-    public void changePassword() {
+    public boolean changePassword(String user, String pass) {
+        boolean result = false;
+        Player aux = PlayerDAO.selectAllFromPlayerLogin(user);
+        if (aux != null) {
+            aux.setPassword(pass);
+            PlayerDAO dao = new PlayerDAO(aux);
+            if (dao.save()) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+    @FXML
+    public void changePasswordFX() {
         if (!ptableprofiletpassword.getText().isEmpty() && !ptableprofiletrepeatpassword.getText().isEmpty()) {
             if (ptableprofiletpassword.getText().equals(ptableprofiletrepeatpassword.getText())) {
                 String password = ptableprofiletpassword.getText();
-                Player selected = PlayerDAO.selectAllFromPlayerLogin(PlayerDAO.getP().getUsername());
-                selected.setPassword(password);
-                PlayerDAO dao = new PlayerDAO(selected);
-                dao.save();
-                ptableprofiletpassword.clear();
-                ptableprofiletrepeatpassword.clear();
+                String user = PlayerDAO.getP().getUsername();
+                if (changePassword(user,password)) {
+                    showInformation("Exito", "Contraseña", "La contraseña ha sido cambiada");
+                    ptableprofiletpassword.clear();
+                    ptableprofiletrepeatpassword.clear();
+                } else {
+                    showWarning("Error", "Error al cambiar contraseña", "No se ha podido cambiar la contraseña");
+                }
             } else {
                 showWarning("Error", "Error al cambiar contraseña", "Comprueba la contraseña");
             }
@@ -332,9 +357,25 @@ public class menuController implements Initializable {
             showWarning("Error", "Error al cambiar contraseña", "Inserta los dos campos de contraseña");
         }
     }
-    
-    public void startMatch() throws IOException{
+
+    public void startMatch() throws IOException {
         App.setRoot("chooseChampion");
+    }
+    public boolean showInformation(String title, String header, String content) {
+        boolean r = false;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            r = true;
+        } else {
+            r = false;
+        }
+        return r;
+
     }
 
 }

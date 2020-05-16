@@ -27,7 +27,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="271.0" layoutY="272.0" mnemonicParsing="false" onAction="#login" text="Entrar" AnchorPane.leftAnchor="271.0" AnchorPane.topAnchor="272.0" />
+      <Button layoutX="271.0" layoutY="272.0" mnemonicParsing="false" onAction="#loginFX" text="Entrar" AnchorPane.leftAnchor="271.0" AnchorPane.topAnchor="272.0" />
       <Button layoutX="346.0" layoutY="272.0" mnemonicParsing="false" onAction="#signup" text="Registrarse" AnchorPane.leftAnchor="346.0" AnchorPane.topAnchor="272.0" />
    </children>
 </AnchorPane>

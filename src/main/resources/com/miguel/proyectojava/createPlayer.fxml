@@ -43,7 +43,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="251.0" layoutY="314.0" mnemonicParsing="false" onAction="#signup" text="Enviar" AnchorPane.topAnchor="314.0" />
+      <Button layoutX="251.0" layoutY="314.0" mnemonicParsing="false" onAction="#signupFX" text="Registrarse" AnchorPane.topAnchor="314.0" />
       <Button layoutX="350.0" layoutY="314.0" mnemonicParsing="false" onAction="#back" text="Volver" AnchorPane.topAnchor="314.0" />
       <PasswordField fx:id="Fpass" layoutX="251.0" layoutY="266.0" AnchorPane.topAnchor="266.0" />
    </children>

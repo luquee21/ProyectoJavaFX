@@ -5,7 +5,6 @@
  */
 package com.miguel.proyectojava.model;
 
-import com.miguel.proyectojava.model.Champion;
 import com.miguel.proyectojava.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

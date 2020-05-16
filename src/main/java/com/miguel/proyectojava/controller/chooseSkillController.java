@@ -80,7 +80,6 @@ public class chooseSkillController implements Initializable {
                 return;
             }
             SkillDAO.setSkill(selected);
-            System.out.println(SkillDAO.getSkill());
             try {
                 App.setRoot("match");
             } catch (IOException ex) {

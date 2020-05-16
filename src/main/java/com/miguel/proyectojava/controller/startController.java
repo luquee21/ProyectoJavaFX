@@ -10,13 +10,14 @@ import com.miguel.proyectojava.model.Player;
 import com.miguel.proyectojava.model.PlayerDAO;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.apache.commons.codec.digest.DigestUtils;
-
 
 /**
  *
@@ -30,44 +31,34 @@ public class startController {
     @FXML
     private PasswordField Fpass;
 
-   
+    private boolean login(String user, String pass) {
+        boolean result = false;
+        Player aux = PlayerDAO.selectAllFromPlayerLogin(user);
+        if (aux != null && aux.getPassword().equals(pass)) {
+            result = true;
+            PlayerDAO.setP(aux);
+        }
+        return result;
+    }
 
-    public void login() throws IOException {
+    public void loginFX() {
         String user = Fuser.getText();
         String pass = DigestUtils.sha512Hex(Fpass.getText());
-        Player aux = PlayerDAO.selectAllFromPlayerLogin(user);
-
-        if (user.isEmpty() || pass.isEmpty()) {
-            showWarning("Sesion", "Inicio de sesion", "Inicio de sesion incorrecto, compruebe el usuario y/o contraseña");
-        } else {
-            if (aux != null && aux.getPassword().equals(pass)) {
-                if (showConfirm()) {
-                    PlayerDAO.setP(aux);
+        if (!user.isEmpty() && !pass.isEmpty()) {
+            if (login(user, pass)) {
+                try {
                     App.setRoot("menu");
-                } 
+                } catch (IOException ex) {
+                    Logger.getLogger(startController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             } else {
-                showWarning("Sesion", "Inicio de sesion", "Inicio de sesion incorrecto, compruebe el usuario y/o contraseña");
+                showWarning("Error", "Inicio de sesion", "Error al iniciar sesión, compruebe los datos");
             }
 
-        }
-
+        } 
     }
-
-    public boolean showConfirm() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Iniciar sesion");
-        alert.setHeaderText("Inicio de sesion");
-        alert.setContentText("¿Desea iniciar sesion?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
+    
 
     public void showWarning(String title, String header, String description) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
