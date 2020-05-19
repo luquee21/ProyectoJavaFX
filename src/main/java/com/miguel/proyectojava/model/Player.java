@@ -13,7 +13,6 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class Player extends Person {
     protected String username;
-    private Score score;
     protected String password;
 
     public Player(String name, String lastname, String email, String username, String password) {
@@ -30,9 +29,6 @@ public class Player extends Person {
     public Player() {
     }
     
-    
- 
- 
     public String getUsername() {
         return username;
     }
@@ -40,15 +36,7 @@ public class Player extends Person {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public Score getScore() {
-        return score;
-    }
-
-    public void setScore(Score score) {
-        this.score = score;
-    }
-
+    
     public String getPassword() {
         return password;
     }
@@ -60,6 +48,6 @@ public class Player extends Person {
  
      @Override
     public String toString() {
-        return super.toString() + "Player{" + "username=" + username + ", score=" + score +'}';
+        return super.toString() + "Jugador{" + "usuario=" + username +'}';
     }
 }

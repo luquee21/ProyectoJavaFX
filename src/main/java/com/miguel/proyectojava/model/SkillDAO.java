@@ -5,7 +5,6 @@
  */
 package com.miguel.proyectojava.model;
 
-import com.miguel.proyectojava.model.Skill;
 import com.miguel.proyectojava.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +20,16 @@ import java.util.logging.Logger;
  */
 public class SkillDAO {
     private static Skill skill;
+    private static Skill skillIA;
+
+    public static Skill getSkillIA() {
+        return skillIA;
+    }
+
+    public static void setSkillIA(Skill skillIA) {
+        SkillDAO.skillIA = skillIA;
+    }
+    
 
     public static Skill getSkill() {
         return skill;
@@ -40,7 +49,7 @@ public class SkillDAO {
             ResultSet s = ps.executeQuery();
             
             while(s.next()){
-                Skill skill = new Skill(s.getString("skill"), s.getString("description"));
+                Skill skill = new Skill(s.getString("skill"), s.getString("description"), s.getFloat("modifier"));
                 aux.add(skill);
             }
            

@@ -5,20 +5,17 @@
  */
 package com.miguel.proyectojava.controller;
 
-import com.miguel.proyectojava.App;
-import com.miguel.proyectojava.model.Player;
 import com.miguel.proyectojava.model.PlayerDAO;
 import com.miguel.proyectojava.model.ScoreDAO;
 import com.miguel.proyectojava.utils.Utils;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -41,6 +38,23 @@ public class createPlayerController {
 
     @FXML
     private PasswordField Fpass;
+    
+     private startController parent;
+
+    private Object params;
+    private Stage myStage;
+    
+    public void setStage(Stage myStage) {
+        this.myStage = myStage;
+    }
+
+    public void setParent(startController p) {
+        this.parent = p;
+    }
+
+    public void setParams(Object p) {
+        params = p;
+    }
 
     public boolean signup(String name, String lastname, String email, String user, String pass) {
         boolean result = false;
@@ -50,6 +64,7 @@ public class createPlayerController {
             }
 
         }
+        
 
         return result;
 
@@ -65,22 +80,17 @@ public class createPlayerController {
             if (Utils.validateEmail(email)) {
                 if (signup(name, lastname, email, user, pass)) {
                     showInformation("Exito", "Usuario registrado", "El usuario ha sido registrado con exito, por favor inicie sesion");
-                    try {
-                        App.setRoot("start");
-                    } catch (IOException ex) {
-                        Logger.getLogger(createPlayerController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    this.myStage.close();
                 } else {
                     showWarning("Error", "Usuario", "Error al crear el usuario");
                 }
             } else {
-                showWarning("Error", "Email", "Introduce un email válido");
+               showWarning("Error", "Email", "Introduce un email válido");
             }
         } else {
             showWarning("Error", "Datos", "Introduce todos los datos para registrarte");
         }
     }
-
     public void showWarning(String title, String header, String description) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -88,7 +98,6 @@ public class createPlayerController {
         alert.setContentText(description);
         alert.showAndWait();
     }
-
     public boolean showInformation(String title, String header, String content) {
         boolean r = false;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -99,15 +108,14 @@ public class createPlayerController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             r = true;
-
         } else {
             r = false;
         }
         return r;
 
     }
-
+    
     public void back() throws IOException {
-        App.setRoot("start");
+        this.myStage.close();
     }
 }

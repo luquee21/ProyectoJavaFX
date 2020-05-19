@@ -5,6 +5,8 @@
  */
 package com.miguel.proyectojava.utils;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,4 +30,23 @@ public class Utils {
         }
         return result;
     }
+    
+    public static int randomIA(List data){
+        int result;
+        result = (int) (Math.random()*(data.size()-1) + 1);
+        System.out.println(result+ "posicion");
+        return result;
+    }
+    
+    public static boolean probmiss(int miss){
+        boolean result2 = false;
+        int result = ThreadLocalRandom.current().nextInt(0, 100);
+        
+        if(result > miss){
+            result2 = true;
+        } 
+        return result2;
+    }
+    
+   
 }

@@ -5,6 +5,7 @@
  */
 package com.miguel.proyectojava.model;
 
+import com.miguel.proyectojava.model.Score;
 import com.miguel.proyectojava.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +38,7 @@ public class ScoreDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScoreDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -57,11 +58,59 @@ public class ScoreDAO {
             }
            
         } catch (SQLException ex) {
-            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScoreDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
         
         return aux;
     }
+    
+    public static Score selectAllFromPlayer(String username){
+        Score score = null;
+        try {
+            java.sql.Connection conn = ConnectionUtil.getConnection();
+            String q = "SELECT * FROM Score where username_player=?";
+            PreparedStatement ps = conn.prepareStatement(q);
+            ps.setString(1, username);
+            ResultSet s = ps.executeQuery();
+            
+            while(s.next()){
+                score = new Score(s.getString("username_player"),s.getInt("victories"), s.getInt("defeats"),s.getInt("total_games"));
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ScoreDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        
+        return score;
+    }
+    
+    public static boolean update(String username, int victories, int defeats, int total_games){
+        int result2 = 0;
+        boolean result = false;
+        try {
+            java.sql.Connection conn = ConnectionUtil.getConnection();
+            String q = "UPDATE Score SET victories=?,defeats=?,total_games=? where username_player=?";
+            PreparedStatement ps = conn.prepareStatement(q);
+            ps.setInt(1,victories);
+            ps.setInt(2,defeats);
+            ps.setInt(3,total_games);
+            ps.setString(4, username);
+            result2 = ps.executeUpdate();
+            
+            if(result2 > 0){
+                result = true;
+            }
+            
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ScoreDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        
+        return result;
+    }
+    
     
 }

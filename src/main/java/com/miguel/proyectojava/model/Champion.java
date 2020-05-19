@@ -17,6 +17,8 @@ public class Champion implements IChampion {
     protected int armor;
     protected Skill skill;
     protected int prob_miss;
+    private int miss_attack;
+    private int n_attacks;
 
     public Champion(String name, int damage, int health, int armor, int prob_miss) {
         this.name = name;
@@ -24,13 +26,29 @@ public class Champion implements IChampion {
         this.health = health;
         this.armor = armor;
         this.prob_miss = prob_miss;
+        this.miss_attack = 0;
+        this.n_attacks = 0;
     }
 
     public Champion(String name) {
         this.name = name;
     }
-    
-    
+
+    public int getN_attacks() {
+        return n_attacks;
+    }
+
+    public void setN_attacks(int n_attacks) {
+        this.n_attacks = n_attacks;
+    }
+
+    public int getMiss_attack() {
+        return miss_attack;
+    }
+
+    public void setMiss_attack(int miss_attack) {
+        this.miss_attack = miss_attack;
+    }
 
     @Override
     public String getName() {
@@ -79,46 +97,22 @@ public class Champion implements IChampion {
 
     @Override
     public void setSkill(Skill skill) {
-        switch (name) {
-            case "Killer":
-                switch (skill.getSkill()) {
-                    case "LessProbMiss":
-                        this.prob_miss = 10;
-                    case "MoreArmor":
-                        this.armor = 100;
-                    case "MoreDamage":
-                        this.damage = 210;
-                    case "MoreHealth":
-                        this.health = 3200;
-                }
+        switch (skill.getSkill()) {
+            case "LessProbMiss":
+                this.prob_miss = (int) (prob_miss * skill.getModifier());
                 break;
-            case "Tank":
-                switch (skill.getSkill()) {
-                    case "LessProbMiss":
-                        this.prob_miss = 20;
-                    case "MoreArmor":
-                        this.armor = 125;
-                    case "MoreDamage":
-                        this.damage = 140;
-                    case "MoreHealth":
-                        this.health = 4100;
-
-                }
+            case "MoreArmor":
+                this.armor = (int) (armor * skill.getModifier());
+                break;
+            case "MoreDamage":
+                this.damage = (int) (damage * skill.getModifier());
+                break;
+            case "MoreHealth":
+                this.health = (int) (health * skill.getModifier());
+                break;
+            default:
                 break;
 
-            case "Wizard":
-                switch (skill.getSkill()) {
-                    case "LessProbMiss":
-                        this.prob_miss = 5;
-                    case "MoreArmor":
-                        this.armor = 90;
-                    case "MoreDamage":
-                        this.damage = 180;
-                    case "MoreHealth":
-                        this.health = 3000;
-
-                }
-                break;
         }
     }
 
@@ -134,7 +128,7 @@ public class Champion implements IChampion {
 
     @Override
     public String toString() {
-        return "daño:" + damage + " vida:" + health + " armadura:" + armor + " probabilidad de fallo al atacar:" + prob_miss;
+        return "[" + name + "]" + ", daño:" + damage + ", vida:" + health + ", armadura:" + armor + ", % fallo de ataque:" + prob_miss;
     }
 
 }

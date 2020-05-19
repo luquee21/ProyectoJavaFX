@@ -6,15 +6,24 @@
 package com.miguel.proyectojava.controller;
 
 import com.miguel.proyectojava.App;
+import com.miguel.proyectojava.model.Champion;
+import com.miguel.proyectojava.model.ChampionDAO;
 import com.miguel.proyectojava.model.Match;
 import com.miguel.proyectojava.model.MatchDAO;
 import com.miguel.proyectojava.model.Player;
 import com.miguel.proyectojava.model.PlayerDAO;
 import com.miguel.proyectojava.model.Score;
 import com.miguel.proyectojava.model.ScoreDAO;
+import com.miguel.proyectojava.model.Skill;
+import com.miguel.proyectojava.model.SkillDAO;
 import com.miguel.proyectojava.utils.Utils;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -26,14 +35,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -81,9 +97,6 @@ public class menuController implements Initializable {
     private TableView<Match> ptablematches;
 
     @FXML
-    private TableColumn<Match, Integer> ptablematchestmatch;
-
-    @FXML
     private TableColumn<Match, String> ptablematchestuser;
 
     @FXML
@@ -108,6 +121,19 @@ public class menuController implements Initializable {
     private TableColumn<Match, String> ptablematchesttime;
 
     private ObservableList<Match> datarecordmatches;
+
+    //TAB-Match
+    @FXML
+    private TextArea matchresult;
+
+    @FXML
+    private TextArea textwinner;
+
+    @FXML
+    private Label vs;
+
+    @FXML
+    public Button play;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -138,14 +164,14 @@ public class menuController implements Initializable {
         ptableprofiletname.setCellFactory(TextFieldTableCell.forTableColumn());
         ptableprofiletname.setOnEditCommit(
                 new EventHandler<TableColumn.CellEditEvent<Player, String>>() {
+
             @Override
             public void handle(TableColumn.CellEditEvent<Player, String> t) {
-
+                
                 Player selected = (Player) t.getTableView().getItems().get(
                         t.getTablePosition().getRow());
 
                 selected.setName(t.getNewValue());  //<<- update lista en vista
-
                 //update en mysql
                 PlayerDAO dao = new PlayerDAO(selected);
                 dao.save();
@@ -222,10 +248,6 @@ public class menuController implements Initializable {
         List<Match> amatch = MatchDAO.selectAll(PlayerDAO.getP().getUsername());
         datarecordmatches.addAll(amatch);
 
-        this.ptablematchestmatch.setCellValueFactory(eachRowData -> {
-            return new SimpleObjectProperty<>(eachRowData.getValue().getId());
-        });
-
         this.ptablematchestuser.setCellValueFactory(eachRowData -> {
             return new SimpleObjectProperty<>(eachRowData.getValue().getPlayer().getUsername());
         });
@@ -253,13 +275,20 @@ public class menuController implements Initializable {
             return new SimpleObjectProperty<>(eachRowData.getValue().getTime().toString());
         });
         ptablematches.setItems(datarecordmatches);
+
+        //TAB Match
+        //Versus
+        vs.setText(PlayerDAO.getP().getUsername() + " vs " + PlayerDAO.getIA().getUsername());
+
     }
 
     public void signoff() throws IOException {
-        //vuelvo a la clase base
         App.setRoot("start");
-        //seteo a nulo el usuario por si inicia sesion con otro.
         PlayerDAO.setP(null);
+    }
+
+    public void recharge() throws IOException {
+        App.setRoot("menu");
     }
 
     public void exit() {
@@ -276,11 +305,120 @@ public class menuController implements Initializable {
         return result;
     }
 
+    public void matchFX() {
+        Player player1 = PlayerDAO.getP();
+        Player player2 = PlayerDAO.getIA();
+        Champion champion1 = ChampionDAO.getChampion();
+        Champion champion2 = ChampionDAO.getChampionIA();
+        Skill skill1 = SkillDAO.getSkill();
+        Skill skill2 = SkillDAO.getSkillIA();
+        champion1.setSkill(skill1);
+        champion2.setSkill(skill2);
+
+        //result
+        if (player1 == null || player2 == null || champion1 == null || champion2 == null || skill1 == null || skill2 == null) {
+            showWarning("Error", "Partida", "Error al realizar la partida");
+        } else {
+            List<Match> resume = match(player1, player2, champion1, champion2, skill1, skill2);
+            if (resume.isEmpty()) {
+                showWarning("Error", "Partida", "No se ha podido realizar la partida");
+            } else {
+                for (Match c : resume) {
+                    matchresult.setText("El jugador: " + c.getPlayer().getUsername() + " ha jugado con el personaje " + c.getcPlayer().getName() + " con la habilidad " + c.getSkill_champion_player().getSkill() + "\n"
+                            + "Ha realizado " + c.getcPlayer().getN_attacks() + " ataques, ha fallado " + c.getcPlayer().getMiss_attack() + " ataques y se ha quedado a " + c.getcPlayer().getHealth() + " de vida\n"
+                            + "La IA ha jugado con el personaje " + c.getcIA().getName() + " con la habilidad " + c.getSkill_champion_IA().getSkill() + "\n"
+                            + "Ha realizado " + c.getcIA().getN_attacks() + " ataques, ha fallado " + c.getcIA().getMiss_attack() + " ataques y se ha quedado a " + c.getcIA().getHealth() + " de vida\n");
+
+                    textwinner.setText("Ha ganado " + c.getWinner());
+
+                }
+            }
+        }
+
+        play.setDisable(true);
+    }
+
+    public List<Match> match(Player player1, Player player2, Champion champion1, Champion champion2, Skill skill1, Skill skill2) {
+        Match m = new Match(player1, champion1, champion2, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()), skill1, skill2);
+        MatchDAO dao = new MatchDAO(m);
+        int damage = 0, health = 0, miss1 = 0, miss2 = 0, attack1 = 0, attack2 = 0;
+        boolean result = true, aux = true, aux2 = true;
+        String winner = null;
+        List<Match> resume = new ArrayList<>();
+
+        while (result) {
+            aux = Utils.probmiss(champion1.getProb_Miss());
+            aux2 = Utils.probmiss(champion2.getProb_Miss());
+
+            if (aux && result) {
+                damage = champion1.getDamage() - champion2.getArmor();
+                health = champion2.getHealth() - damage;
+                if (health <= damage) {
+                    champion2.setHealth(0);
+                    attack1++;
+                    winner = player1.getUsername();
+                    dao.setWinner(winner);
+                    result = false;
+                } else {
+                    champion2.setHealth(health);
+                    attack1++;
+                }
+            } else if(!aux && result) {
+                miss1++;
+            }
+            System.out.println(champion1);
+            if (aux2 && result) {
+                damage = champion2.getDamage() - champion1.getArmor();
+                health = champion1.getHealth() - damage;
+                if (health <= damage) {
+                    champion1.setHealth(0);
+                    attack2++;
+                    winner = player2.getUsername();
+                    dao.setWinner(winner);
+                    result = false;
+                } else {
+                    champion1.setHealth(health);
+                    attack2++;
+                }
+            } else if(!aux2 && result) {
+                miss2++;
+            }
+              System.out.println(champion2);
+        }
+        champion1.setMiss_attack(miss1);
+        champion1.setN_attacks(attack1);
+        champion2.setMiss_attack(miss2);
+        champion2.setN_attacks(attack2);
+        m.setWinner(winner);
+        resume.add(m);
+        dao.save();
+        winner(winner, player1);
+
+        return resume;
+    }
+
+    public void winner(String winner, Player p) {
+        Score s = null;
+        s = ScoreDAO.selectAllFromPlayer(p.getUsername());
+        int total = 0, win = 0, defeats = 0;
+        if (p.getUsername().equals(winner)) {
+            total = s.getTotal_games() + 1;
+            win = s.getVictories() + 1;
+            defeats = s.getDefeats();
+
+        } else {
+            total = s.getTotal_games() + 1;
+            defeats = s.getDefeats() + 1;
+            win = s.getVictories();
+        }
+        ScoreDAO.update(p.getUsername(), win, defeats, total);
+    }
+
     @FXML
     public void deletePlayerFX() {
         Player selected = ptableprofile.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            if (!showConfirm(selected.getUsername())) {
+            if (!showConfirm("Eliminar", "A punto de eliminar", "Desea eliminar " + selected.getUsername())) {
                 return;
             }
             //BORRAR DE LA INTERFAZ
@@ -309,11 +447,11 @@ public class menuController implements Initializable {
         alert.showAndWait();
     }
 
-    public boolean showConfirm(String title) {
+    public boolean showConfirm(String title, String header, String text) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar");
-        alert.setHeaderText("A punto de eliminar");
-        alert.setContentText("Desea borrar al usuario " + title + "\n Se borrara tanto el usuario como sus partidas y su puntuacion");
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(text);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
@@ -337,13 +475,14 @@ public class menuController implements Initializable {
 
         return result;
     }
+
     @FXML
     public void changePasswordFX() {
         if (!ptableprofiletpassword.getText().isEmpty() && !ptableprofiletrepeatpassword.getText().isEmpty()) {
             if (ptableprofiletpassword.getText().equals(ptableprofiletrepeatpassword.getText())) {
                 String password = ptableprofiletpassword.getText();
                 String user = PlayerDAO.getP().getUsername();
-                if (changePassword(user,password)) {
+                if (changePassword(user, password)) {
                     showInformation("Exito", "Contraseña", "La contraseña ha sido cambiada");
                     ptableprofiletpassword.clear();
                     ptableprofiletrepeatpassword.clear();
@@ -358,9 +497,35 @@ public class menuController implements Initializable {
         }
     }
 
-    public void startMatch() throws IOException {
-        App.setRoot("chooseChampion");
+    public void createMatch() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("chooseChampionAndSkill.fxml"));
+        Parent modal;
+        try {
+            modal = fxmlLoader.load();
+
+            Stage modalStage = new Stage();
+            modalStage.setTitle("Seleccionar campeon y habilidad");
+            modalStage.initModality(Modality.APPLICATION_MODAL);
+            modalStage.initOwner(App.rootstage);
+
+            Scene modalScene = new Scene(modal);
+            modalStage.setScene(modalScene);
+
+            chooseChampionAndSkillController modalController = fxmlLoader.getController();
+            if (modalController != null) {
+                modalController.setStage(modalStage);
+                modalController.setParent(this);
+                modalController.setParams(null);
+
+            }
+
+            modalStage.showAndWait();
+
+        } catch (IOException ex) {
+            Logger.getLogger(menuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
     public boolean showInformation(String title, String header, String content) {
         boolean r = false;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

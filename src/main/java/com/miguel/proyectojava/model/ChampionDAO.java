@@ -20,6 +20,16 @@ import java.util.logging.Logger;
  */
 public class ChampionDAO {
     private static Champion champion;
+    private static Champion championIA;
+
+    public static Champion getChampionIA() {
+        return championIA;
+    }
+
+    public static void setChampionIA(Champion championIA) {
+        ChampionDAO.championIA = championIA;
+    }
+    
 
     public static Champion getChampion() {
         return champion;

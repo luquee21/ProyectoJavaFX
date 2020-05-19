@@ -12,11 +12,15 @@ package com.miguel.proyectojava.model;
 public class Skill {
     private String skill;
     private String description;
+    private float modifier;
 
-    public Skill(String skill, String description) {
+    public Skill(String skill, String description, float modifier) {
         this.skill = skill;
         this.description = description;
+        this.modifier = modifier;
     }
+
+    
 
     public Skill(String skill) {
         this.skill = skill;
@@ -26,6 +30,15 @@ public class Skill {
     public String getDescription() {
         return description;
     }
+
+    public float getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
+    }
+    
 
     public void setDescription(String description) {
         this.description = description;

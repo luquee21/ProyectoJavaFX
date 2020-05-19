@@ -18,18 +18,17 @@ import java.sql.Time;
  */
 public class Match {
  
-    private int id;
-    private Player player;
-    private Champion cPlayer;
-    private Champion cIA;
-    private String winner;
-    private Date date;
-    private Time time;
-    private Skill skill_champion_player;
-    private Skill skill_champion_IA;
+    protected Player player;
+    protected Champion cPlayer;
+    protected Champion cIA;
+    protected String winner;
+    protected Date date;
+    protected Time time;
+    protected Skill skill_champion_player;
+    protected Skill skill_champion_IA;
 
-    public Match(int id, Player player, Champion cPlayer, Champion cIA, Date date,Time time, Skill skill_champion_player, Skill skill_champion_IA) {
-        this.id = id;
+    //Match
+    public Match(Player player, Champion cPlayer, Champion cIA, Date date,Time time, Skill skill_champion_player, Skill skill_champion_IA) {
         this.player = player;
         this.cPlayer = cPlayer;
         this.cIA = cIA;
@@ -39,8 +38,8 @@ public class Match {
         this.skill_champion_IA = skill_champion_IA;
     }
     
-    public Match(int id, String username, String champion_name, String skill, String Champion_name_IA, String skill_IA, String winner, Date date, Time time){
-        this.id = id;
+    //MatchDAO selectall
+    public Match(String username, String champion_name, String skill, String Champion_name_IA, String skill_IA, String winner, Date date, Time time){
         this.player = new Player(username);
         this.cPlayer = new Champion(champion_name);
         this.skill_champion_player = new Skill(skill);
@@ -50,16 +49,12 @@ public class Match {
         this.date = date;
         this.time = time;
     }
-        
     
-
-    public int getId() {
-        return id;
+    //DAO
+    public Match() {
+        
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 
     public Player getPlayer() {
         return player;

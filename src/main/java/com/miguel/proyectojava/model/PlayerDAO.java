@@ -5,6 +5,7 @@
  */
 package com.miguel.proyectojava.model;
 
+import com.miguel.proyectojava.model.Player;
 import com.miguel.proyectojava.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +32,15 @@ public class PlayerDAO extends Player{
         username = player.username;
         password = player.password;
        
+    }
+    private static Player IA;
+
+    public static Player getIA() {
+        return IA;
+    }
+
+    public static void setIA(Player IA) {
+        PlayerDAO.IA = IA;
     }
     
     private static Player p;
