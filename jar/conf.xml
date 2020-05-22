@@ -1,0 +1,11 @@
+<CONNECTION>
+
+<host>luque21.duckdns.org</host>
+
+<db>juego</db>
+
+<user>luque</user>
+
+<password>root</password>
+
+</CONNECTION>
