@@ -12,7 +12,6 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.miguel.proyectojava.controller.menuController">
    <children>
@@ -133,18 +132,18 @@
                         <Button layoutX="574.0" layoutY="376.0" mnemonicParsing="false" onAction="#exit" text="Salir" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="15.0" />
                         <Button layoutX="485.0" layoutY="388.0" mnemonicParsing="false" onAction="#signoff" text="Cerrar sesión" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="65.0" />
                         <TextArea fx:id="matchresult" editable="false" layoutX="8.0" layoutY="24.0" prefHeight="201.0" prefWidth="610.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0" />
-                        <Text layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ganador" textAlignment="CENTER" wrappingWidth="251.0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Text>
-                        <TextArea fx:id="textwinner" editable="false" layoutY="266.0" prefHeight="83.0" prefWidth="251.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="270.0" />
+                        <TextArea fx:id="textwinner" editable="false" layoutX="195.0" layoutY="269.0" prefHeight="83.0" prefWidth="251.0" AnchorPane.leftAnchor="195.0" AnchorPane.rightAnchor="194.0" AnchorPane.topAnchor="269.0" />
                         <Label fx:id="vs" alignment="CENTER" layoutX="178.0" layoutY="1.0" prefHeight="27.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Button fx:id="play" disable="true" layoutX="110.0" layoutY="366.0" mnemonicParsing="false" onAction="#matchFX" text="Jugar" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="110.0" />
+                        <Label alignment="CENTER" layoutY="242.0" prefHeight="17.0" prefWidth="640.0" text="Ganador" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
             </content>
           </Tab>

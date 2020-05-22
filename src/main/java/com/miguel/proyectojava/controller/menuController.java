@@ -16,10 +16,12 @@ import com.miguel.proyectojava.model.Score;
 import com.miguel.proyectojava.model.ScoreDAO;
 import com.miguel.proyectojava.model.Skill;
 import com.miguel.proyectojava.model.SkillDAO;
+import com.miguel.proyectojava.utils.ConnectionUtil;
 import com.miguel.proyectojava.utils.Utils;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -167,7 +169,7 @@ public class menuController implements Initializable {
 
             @Override
             public void handle(TableColumn.CellEditEvent<Player, String> t) {
-                
+
                 Player selected = (Player) t.getTableView().getItems().get(
                         t.getTablePosition().getRow());
 
@@ -282,20 +284,45 @@ public class menuController implements Initializable {
 
     }
 
+    /**
+     * Funcion que cierra sesion y vuelve a la pestaña de login
+     *
+     * @throws IOException
+     */
     public void signoff() throws IOException {
         App.setRoot("start");
         PlayerDAO.setP(null);
+      
     }
 
+    /**
+     * Funcion para recargar la pagina
+     *
+     * @throws IOException
+     */
     public void recharge() throws IOException {
         App.setRoot("menu");
     }
 
+    /**
+     * Funcion que cierra el programa
+     */
     public void exit() {
+        try {
+            ConnectionUtil.closeConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(menuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Platform.exit();
         System.exit(0);
     }
 
+    /**
+     * Funcion que borra el jugador que se le pasa como parametro
+     *
+     * @param p Jugador que se va a borrar
+     * @return devuelve cierto si ha conseguido borrar al jugador
+     */
     public boolean deletePlayer(Player p) {
         boolean result = false;
         PlayerDAO dao = new PlayerDAO(p);
@@ -305,6 +332,10 @@ public class menuController implements Initializable {
         return result;
     }
 
+    /**
+     * Funcion asociada con javafx que recoge los datos necesarios para realizar
+     * la partida
+     */
     public void matchFX() {
         Player player1 = PlayerDAO.getP();
         Player player2 = PlayerDAO.getIA();
@@ -338,6 +369,18 @@ public class menuController implements Initializable {
         play.setDisable(true);
     }
 
+    /**
+     * Funcion que recibe los datos necesarios para crear la partida, asociada
+     * con matchFX
+     *
+     * @param player1 Jugador
+     * @param player2 IA
+     * @param champion1 campeon del jugador 1
+     * @param champion2 campeon de la IA
+     * @param skill1 habilidad del jugador 1
+     * @param skill2 habilidad del jugador 2
+     * @return devuelve el array con los datos de la partida
+     */
     public List<Match> match(Player player1, Player player2, Champion champion1, Champion champion2, Skill skill1, Skill skill2) {
         Match m = new Match(player1, champion1, champion2, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()), skill1, skill2);
         MatchDAO dao = new MatchDAO(m);
@@ -363,10 +406,10 @@ public class menuController implements Initializable {
                     champion2.setHealth(health);
                     attack1++;
                 }
-            } else if(!aux && result) {
+            } else if (!aux && result) {
                 miss1++;
             }
-            System.out.println(champion1);
+
             if (aux2 && result) {
                 damage = champion2.getDamage() - champion1.getArmor();
                 health = champion1.getHealth() - damage;
@@ -380,10 +423,10 @@ public class menuController implements Initializable {
                     champion1.setHealth(health);
                     attack2++;
                 }
-            } else if(!aux2 && result) {
+            } else if (!aux2 && result) {
                 miss2++;
             }
-              System.out.println(champion2);
+
         }
         champion1.setMiss_attack(miss1);
         champion1.setN_attacks(attack1);
@@ -397,6 +440,12 @@ public class menuController implements Initializable {
         return resume;
     }
 
+    /**
+     * Funcion para saber el ganador y sumarle las victorias, derrotas y totales
+     *
+     * @param winner recibe el ganador
+     * @param p recibe el jugador.
+     */
     public void winner(String winner, Player p) {
         Score s = null;
         s = ScoreDAO.selectAllFromPlayer(p.getUsername());
@@ -414,6 +463,9 @@ public class menuController implements Initializable {
         ScoreDAO.update(p.getUsername(), win, defeats, total);
     }
 
+    /**
+     * Funcion asociada con javafx para recibir el jugador que se va a borrar
+     */
     @FXML
     public void deletePlayerFX() {
         Player selected = ptableprofile.getSelectionModel().getSelectedItem();
@@ -439,6 +491,13 @@ public class menuController implements Initializable {
         }
     }
 
+    /**
+     * Funcion que ejecuta una alerta
+     *
+     * @param title recibe el titulo de la ventana
+     * @param header recibe la cabecera de la ventana
+     * @param description recibe la descripcion de la ventana
+     */
     public void showWarning(String title, String header, String description) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -447,6 +506,14 @@ public class menuController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Funcion que ejecuta una ventana con confirmacion
+     *
+     * @param title recibe el titulo de la ventana
+     * @param header recibe la cabecera de la ventana
+     * @param text recibe la descripcion de la ventana
+     * @return
+     */
     public boolean showConfirm(String title, String header, String text) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -462,6 +529,13 @@ public class menuController implements Initializable {
 
     }
 
+    /**
+     * Funcion para cambiar la contraseña del usuario
+     *
+     * @param user recibe el usuario
+     * @param pass recibe la contraseña
+     * @return
+     */
     public boolean changePassword(String user, String pass) {
         boolean result = false;
         Player aux = PlayerDAO.selectAllFromPlayerLogin(user);
@@ -476,6 +550,10 @@ public class menuController implements Initializable {
         return result;
     }
 
+    /**
+     * Funcion asociada con javafx que recibe la contraseña que se va a
+     * actualizar y su posterior llamada a changepassword
+     */
     @FXML
     public void changePasswordFX() {
         if (!ptableprofiletpassword.getText().isEmpty() && !ptableprofiletrepeatpassword.getText().isEmpty()) {
@@ -497,6 +575,11 @@ public class menuController implements Initializable {
         }
     }
 
+    /**
+     * Funcion que llama a la ventana de elegir campeon y habilidad
+     *
+     * @throws IOException
+     */
     public void createMatch() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("chooseChampionAndSkill.fxml"));
         Parent modal;
@@ -526,6 +609,14 @@ public class menuController implements Initializable {
         }
     }
 
+    /**
+     * Funcion que ejecuta una ventana con informacion
+     *
+     * @param title recibe el titulo de la ventana
+     * @param header recibe la cabecera de la ventana
+     * @param content recibe la descripcion de la ventana
+     * @return
+     */
     public boolean showInformation(String title, String header, String content) {
         boolean r = false;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

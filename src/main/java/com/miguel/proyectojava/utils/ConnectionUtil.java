@@ -10,6 +10,13 @@ import java.util.logging.Logger;
 public class ConnectionUtil {
     
     private static java.sql.Connection _conn=null;
+    /**
+     * Conecta con la base datos
+     * @param c recibe la conexion
+     * @return devuelve la conexion
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     
     public static java.sql.Connection connect(Connection c) throws ClassNotFoundException, SQLException{
         java.sql.Connection conn=null;
@@ -24,7 +31,10 @@ public class ConnectionUtil {
         
         return conn;
     }
-    
+    /**
+     * Crea una nueva conexion
+     * @return devuelve una conexion
+     */
     public static java.sql.Connection getConnection(){
         if(_conn==null){
             Connection c=new Connection();
@@ -40,6 +50,16 @@ public class ConnectionUtil {
         return _conn;
     }
     
-    // cerrar conexión <- falta
+    /**
+     * Cierra la conexion
+     * @throws SQLException 
+     */
+    public static void closeConnection() throws SQLException{
+        if(_conn!=null){
+            _conn.close();
+        }
+        
+    }
+    
     
 }

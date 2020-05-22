@@ -9,10 +9,7 @@ import com.miguel.proyectojava.model.PlayerDAO;
 import com.miguel.proyectojava.model.ScoreDAO;
 import com.miguel.proyectojava.utils.Utils;
 import java.io.IOException;
-import java.util.Optional;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -56,6 +53,16 @@ public class createPlayerController {
         params = p;
     }
 
+    
+    /**
+     * Recibe los datos necesarios para registar al usuario
+     * @param name nombre del jugador
+     * @param lastname apellidos del jugador
+     * @param email email del jugador
+     * @param user usuario del jugador
+     * @param pass contraseña del jugador
+     * @return devuelve cierto si ha conseguido registrar al usuario en la base de datos
+     */
     public boolean signup(String name, String lastname, String email, String user, String pass) {
         boolean result = false;
         if (!PlayerDAO.isAvailablePlayer(user)) {
@@ -69,6 +76,10 @@ public class createPlayerController {
         return result;
 
     }
+    
+    /**
+     * Funcion asociada a javafx para recoger los datos del usuario para su posterior registro 
+     */
 
     public void signupFX() {
         String name = Fname.getText();
@@ -79,42 +90,23 @@ public class createPlayerController {
         if (!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !user.isEmpty() && !pass.isEmpty()) {
             if (Utils.validateEmail(email)) {
                 if (signup(name, lastname, email, user, pass)) {
-                    showInformation("Exito", "Usuario registrado", "El usuario ha sido registrado con exito, por favor inicie sesion");
+                    parent.showInformation("Exito", "Usuario registrado", "El usuario ha sido registrado con exito, por favor inicie sesion");
                     this.myStage.close();
                 } else {
-                    showWarning("Error", "Usuario", "Error al crear el usuario");
+                    parent.showWarning("Error", "Usuario", "Error al crear el usuario");
                 }
             } else {
-               showWarning("Error", "Email", "Introduce un email válido");
+               parent.showWarning("Error", "Email", "Introduce un email válido");
             }
         } else {
-            showWarning("Error", "Datos", "Introduce todos los datos para registrarte");
+            parent.showWarning("Error", "Datos", "Introduce todos los datos para registrarte");
         }
-    }
-    public void showWarning(String title, String header, String description) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(description);
-        alert.showAndWait();
-    }
-    public boolean showInformation(String title, String header, String content) {
-        boolean r = false;
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            r = true;
-        } else {
-            r = false;
-        }
-        return r;
-
     }
     
+    /**
+     * Funcion para cerrar la ventana
+     * @throws IOException 
+     */
     public void back() throws IOException {
         this.myStage.close();
     }

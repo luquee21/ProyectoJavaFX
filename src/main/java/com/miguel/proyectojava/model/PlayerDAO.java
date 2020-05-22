@@ -5,7 +5,6 @@
  */
 package com.miguel.proyectojava.model;
 
-import com.miguel.proyectojava.model.Player;
 import com.miguel.proyectojava.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,7 +51,16 @@ public class PlayerDAO extends Player{
     public static void setP(Player p) {
         PlayerDAO.p = p;
     }
-
+    
+    /**
+     * Inserta en la base de datos la informacion del jugador
+     * @param name nombre del jugador
+     * @param lastname apellidos del jugador
+     * @param email email del jugador
+     * @param username usuario del jugador
+     * @param password contraseña del jugador
+     * @return devuelve cierto si se ha guardado los datos del jugador
+     */
     public static boolean signup(String name, String lastname, String email, String username, String password) {
         boolean result = false;
 
@@ -75,7 +83,12 @@ public class PlayerDAO extends Player{
         }
         return result;
     }
-
+    
+    /**
+     * Recoge todos los datos de un jugador 
+     * @param username usuario del jugador
+     * @return devuelve el jugador que se pasa por parametro
+     */
     public static Player selectAllFromPlayerLogin(String username) {
         Player result = null;
 
@@ -96,7 +109,12 @@ public class PlayerDAO extends Player{
         }
         return result;
     }
-
+    
+    /**
+     * Comprueba si el jugador existe
+     * @param username reciobe el usuario del jugador
+     * @return devuelve cierto si el usuario ya existe
+     */
     public static boolean isAvailablePlayer(String username) {
         boolean result = false;
         try {
@@ -112,12 +130,16 @@ public class PlayerDAO extends Player{
                 }
             }
         } catch (SQLException ex) {
-            System.out.println(ex);
+            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return result;
     }
-
+    
+    /**
+     * actualiza la informacion del jugador
+     * @return devuelve cierto si ha actualizado la informacion
+     */
     public boolean save() {
         boolean result = false;
         int result2;
@@ -144,7 +166,10 @@ public class PlayerDAO extends Player{
 
         return result;
     }
-
+    /**
+     * Borra el usuario 
+     * @return devuelve true si se ha borrado el usuario
+     */
     public boolean delete() {
         boolean result = false;
         try {
@@ -152,7 +177,6 @@ public class PlayerDAO extends Player{
             String q = "DELETE FROM Player WHERE username=?";
             PreparedStatement ps = conn.prepareStatement(q);
             ps.setString(1, username);
-            System.out.println(username);
             int rs = ps.executeUpdate();
             if (rs > 0) {
                 result = true;
@@ -161,7 +185,7 @@ public class PlayerDAO extends Player{
             }
 
         } catch (SQLException ex) {
-            System.out.println(ex);
+            Logger.getLogger(PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return result;

@@ -39,7 +39,10 @@ public class SkillDAO {
         SkillDAO.skill = skill;
     }
     
-    
+    /**
+     * Recibe en una lista todas las habilidades que hay en la base de datos
+     * @return devuelve una lista con las habilidades disponibles
+     */
     public static List<Skill> selectAll(){
         List<Skill> aux = new ArrayList<>();
         try {

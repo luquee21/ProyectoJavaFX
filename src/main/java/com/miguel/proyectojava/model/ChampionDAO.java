@@ -38,7 +38,10 @@ public class ChampionDAO {
     public static void setChampion(Champion champion) {
         ChampionDAO.champion = champion;
     }
-    
+    /**
+     * Recibe en un array todos los campeones de la base de datos
+     * @return devuelve una lista con los campeones disponibles
+     */
     public static List<Champion> selectAll(){
         List<Champion> aux = new ArrayList<>();
         try {

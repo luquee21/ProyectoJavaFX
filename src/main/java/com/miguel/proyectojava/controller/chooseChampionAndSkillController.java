@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -58,6 +59,13 @@ public class chooseChampionAndSkillController implements Initializable {
 
     @FXML
     private TableColumn<Skill, Float> modifier;
+    
+    @FXML 
+    private Button selectSkillb;
+    
+    @FXML 
+    private Button selectChampionb;
+    
 
     private ObservableList<Skill> dataskill;
 
@@ -132,6 +140,10 @@ public class chooseChampionAndSkillController implements Initializable {
         });
         tableskill.setItems(dataskill);
     }
+    
+    /**
+     * Seleciona la skill que el jugador elige en la tabla
+     */
 
     public void selectSkill() {
         Skill selected = tableskill.getSelectionModel().getSelectedItem();
@@ -140,6 +152,7 @@ public class chooseChampionAndSkillController implements Initializable {
                 return;
             }
             SkillDAO.setSkill(selected);
+            selectSkillb.setDisable(true);
 
         } else {
             //LISTO
@@ -147,7 +160,9 @@ public class chooseChampionAndSkillController implements Initializable {
 
         }
     }
-
+    /**
+     * Comprueba que se ha elegido skill y campeon y lleva a la ventana de la partida
+     */
     public void startMatch() {
         if (SkillDAO.getSkill() != null && PlayerDAO.getP() != null) {
             parent.play.setDisable(false);
@@ -156,6 +171,10 @@ public class chooseChampionAndSkillController implements Initializable {
             parent.showWarning("¡Ojo!", "Seleccionar", "Seleccione un campeon y habilidad antes de empezar");
         }
     }
+    
+     /**
+     * Seleciona el campeon que el jugador elige en la tabla
+     */
 
     public void selectChampion() {
         Champion selected = table.getSelectionModel().getSelectedItem();
@@ -165,6 +184,7 @@ public class chooseChampionAndSkillController implements Initializable {
                 return;
             }
             ChampionDAO.setChampion(selected);
+            selectChampionb.setDisable(true);
             
             //Escoge campeon diferente a la IA al que ha elegido el jugador
             aux.remove(selected);

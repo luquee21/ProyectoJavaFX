@@ -33,14 +33,13 @@ public class Utils {
     
     public static int randomIA(List data){
         int result;
-        result = (int) (Math.random()*(data.size()-1) + 1);
-        System.out.println(result+ "posicion");
+        result = ThreadLocalRandom.current().nextInt(0, data.size());
         return result;
     }
     
     public static boolean probmiss(int miss){
         boolean result2 = false;
-        int result = ThreadLocalRandom.current().nextInt(0, 100);
+        int result = ThreadLocalRandom.current().nextInt(0, 101);
         
         if(result > miss){
             result2 = true;

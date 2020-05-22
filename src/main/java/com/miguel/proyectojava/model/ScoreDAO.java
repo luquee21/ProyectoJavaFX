@@ -5,7 +5,6 @@
  */
 package com.miguel.proyectojava.model;
 
-import com.miguel.proyectojava.model.Score;
 import com.miguel.proyectojava.utils.ConnectionUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +19,11 @@ import java.util.logging.Logger;
  * @author migue
  */
 public class ScoreDAO {
+    /**
+     * Guarda en la base de datos una tabla de la puntuacion del jugador con valores a 0 para su posterior actualizacion
+     * @param username recibe el usuario
+     * @return devuelve cierto si ha podido guardar la tabla puntuacion en la base de datos
+     */
     
     public static boolean createScore(String username){
        boolean result = false;
@@ -43,6 +47,10 @@ public class ScoreDAO {
         return result;
     }
     
+    /**
+     * Recibe una lista con todas las puntuaciones de la base de datos
+     * @return devuelve una lista de todas las puntuaciones
+     */
     public static List<Score> selectAll(){
         List<Score> aux = new ArrayList<>();
         Score score = null;
@@ -64,7 +72,11 @@ public class ScoreDAO {
         
         return aux;
     }
-    
+    /**
+     * Recibe una puntuacion del jugador para su posterior creacion
+     * @param username usuario del jugador
+     * @return devuelve la puntuacion creada del jugador
+     */
     public static Score selectAllFromPlayer(String username){
         Score score = null;
         try {
@@ -86,6 +98,14 @@ public class ScoreDAO {
         return score;
     }
     
+    /**
+     * Actualiza la informacion de la puntuacion del jugador
+     * @param username recibe el usuario del jugador
+     * @param victories recibe las victorias del jugador
+     * @param defeats recibe las derrotas del jugador
+     * @param total_games recibe las partidas totales del jugador
+     * @return devuelve cierto si ha podido actualizar la informacion del jugador
+     */
     public static boolean update(String username, int victories, int defeats, int total_games){
         int result2 = 0;
         boolean result = false;

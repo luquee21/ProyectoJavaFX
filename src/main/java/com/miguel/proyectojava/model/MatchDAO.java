@@ -37,7 +37,11 @@ public class MatchDAO extends Match {
 
     
     
-    
+    /**
+     * Recibe en una lista todas las partidas del jugador
+     * @param username jugador del que se quiere mostrar las partidas
+     * @return devuelve una lista con todas las partidas del jugador
+     */
     public static List<Match> selectAll(String username){
         List<Match> aux = new ArrayList<>();
         Match match;
@@ -61,7 +65,10 @@ public class MatchDAO extends Match {
         
         return aux;
     }
-    
+    /**
+     * Guarda las partidas del jugador
+     * @return devuelve cierto si ha guardado las partidas del jugador
+     */
     public boolean save(){
         boolean result = false;
         int result2;
