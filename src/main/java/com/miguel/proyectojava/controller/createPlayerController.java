@@ -82,11 +82,11 @@ public class createPlayerController {
      */
 
     public void signupFX() {
-        String name = Fname.getText();
-        String lastname = Flastname.getText();
-        String email = Femail.getText();
-        String user = Fuser.getText();
-        String pass = DigestUtils.sha512Hex(Fpass.getText());
+        String name = Fname.getText().trim();
+        String lastname = Flastname.getText().trim();
+        String email = Femail.getText().trim();
+        String user = Fuser.getText().trim();
+        String pass = DigestUtils.sha512Hex(Fpass.getText().trim());
         if (!name.isEmpty() && !lastname.isEmpty() && !email.isEmpty() && !user.isEmpty() && !pass.isEmpty()) {
             if (Utils.validateEmail(email)) {
                 if (signup(name, lastname, email, user, pass)) {

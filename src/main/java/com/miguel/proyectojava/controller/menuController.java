@@ -318,7 +318,7 @@ public class menuController implements Initializable {
     }
 
     /**
-     * Funcion que borra el jugador que se le pasa como parametro
+     * Funcion que borra el jugador que se le pasa como parametro, en este caso el jugador que inicia sesion
      *
      * @param p Jugador que se va a borrar
      * @return devuelve cierto si ha conseguido borrar al jugador

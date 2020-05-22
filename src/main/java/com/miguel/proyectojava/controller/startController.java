@@ -45,7 +45,7 @@ public class startController {
      * @return devuelve cierto si los datos de sesion son correctos con la base
      * de datos
      */
-    private boolean login(String user, String pass) {
+    public boolean login(String user, String pass) {
         boolean result = false;
         Player aux = PlayerDAO.selectAllFromPlayerLogin(user);
         Player IA = PlayerDAO.selectAllFromPlayerLogin("IA");
@@ -62,8 +62,8 @@ public class startController {
      * para su posterior comprobacion con la funcion login
      */
     public void loginFX() {
-        String user = Fuser.getText();
-        String pass = DigestUtils.sha512Hex(Fpass.getText());
+        String user = Fuser.getText().trim();
+        String pass = DigestUtils.sha512Hex(Fpass.getText().trim());
         if (!user.isEmpty() && !pass.isEmpty()) {
             if (login(user, pass)) {
                 try {
